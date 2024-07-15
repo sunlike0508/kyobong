@@ -21,7 +21,7 @@ import lombok.Setter;
 @Setter
 @Table(name = "books")
 @NoArgsConstructor
-class BookEntity {
+public class BookEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,4 +37,9 @@ class BookEntity {
 
     private boolean isRentable = true;
 
+
+    public void addBookCategoryEntity(BookCategoryEntity bookCategoryEntity) {
+        bookCategoryEntity.setBook(this);
+        bookCategoryList.add(bookCategoryEntity);
+    }
 }
