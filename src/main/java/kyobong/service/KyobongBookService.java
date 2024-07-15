@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-class KyobongBookService implements GetBookUseCase {
+class KyobongBookService implements GetBookUseCase, EnrollBookUseCase {
 
     private final BookEntityRepository bookEntityRepository;
     private final KyobongBookServiceMapper kyobongBookServiceMapper;

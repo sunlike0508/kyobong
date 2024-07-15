@@ -4,6 +4,7 @@ package kyobong.controller;
 import java.util.List;
 import jakarta.validation.Valid;
 import kyobong.controller.dto.EnrollBookDto;
+import kyobong.service.EnrollBookUseCase;
 import kyobong.service.GetBookUseCase;
 import kyobong.service.dto.BookDto;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class KyobongBookController {
 
     private final GetBookUseCase getBookUseCase;
+    private final EnrollBookUseCase enrollBookUseCase;
 
 
     @GetMapping("/books")
@@ -29,6 +31,6 @@ public class KyobongBookController {
 
     @PostMapping("/books")
     public ResponseEntity<BookDto> enrollBook(@Valid @RequestBody EnrollBookDto enrollBookDto) {
-        return new ResponseEntity<>(getBookUseCase.enrollBook(enrollBookDto), HttpStatus.OK);
+        return new ResponseEntity<>(enrollBookUseCase.enrollBook(enrollBookDto), HttpStatus.OK);
     }
 }
