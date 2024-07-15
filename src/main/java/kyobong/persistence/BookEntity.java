@@ -37,4 +37,9 @@ public class BookEntity {
 
     private boolean isRentable = true;
 
+
+    public void addBookCategoryEntity(BookCategoryEntity bookCategoryEntity) {
+        bookCategoryEntity.setBook(this);
+        bookCategoryList.add(bookCategoryEntity);
+    }
 }

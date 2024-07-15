@@ -56,7 +56,7 @@ class BookEntityRepositoryTest {
             bookCategoryEntity.setBook(bookEntity);
             bookCategoryEntity.setCategory(categoryEntity);
 
-            bookEntity.setBookCategoryList(List.of(bookCategoryEntity));
+            bookEntity.addBookCategoryEntity(bookCategoryEntity);
 
             bookEntityRepository.save(bookEntity);
         });

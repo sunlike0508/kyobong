@@ -35,7 +35,7 @@ public class InitDataProcess implements CommandLineRunner {
 
 
     public static Map<Long, String> getCategoryMap() {
-        return categoryMap;
+        return Map.copyOf(categoryMap);
     }
 
 
@@ -74,7 +74,7 @@ public class InitDataProcess implements CommandLineRunner {
             bookCategoryEntity.setBook(bookEntity);
             bookCategoryEntity.setCategory(categoryEntity);
 
-            bookEntity.setBookCategoryList(List.of(bookCategoryEntity));
+            bookEntity.addBookCategoryEntity(bookCategoryEntity);
 
             bookEntityRepository.save(bookEntity);
         });

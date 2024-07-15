@@ -1,9 +1,13 @@
 package kyobong.service;
 
 import java.util.List;
+import java.util.Map;
 import kyobong.config.InitDataProcess;
+import kyobong.controller.dto.EnrollBookDto;
+import kyobong.persistence.BookCategoryEntity;
 import kyobong.persistence.BookEntity;
 import kyobong.persistence.BookEntityRepository;
+import kyobong.persistence.CategoryEntity;
 import kyobong.service.dto.BookDto;
 import kyobong.service.dto.CategoryDto;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +41,44 @@ class KyobongBookService implements GetBookUseCase {
 
             return kyobongBookServiceMapper.toBookDto(bookEntity, categoryList);
         }).toList();
+    }
+
+
+    @Override
+    @Transactional
+    public BookDto enrollBook(EnrollBookDto enrollBookDto) {
+
+        Map<Long, String> categoryMap = InitDataProcess.getCategoryMap();
+
+        List<CategoryEntity> categoryEntityList = enrollBookDto.getCategoryList().stream().map(categoryID -> {
+            if(categoryMap.containsKey(categoryID)) {
+                CategoryEntity categoryEntity = new CategoryEntity();
+                categoryEntity.setId(categoryID);
+                categoryEntity.setName(categoryMap.get(categoryID));
+                return categoryEntity;
+            }
+
+            throw new IllegalArgumentException("등록되지 않은 카테고리(" + categoryID + ") 입니다. 카테고리를 먼저 등록해주세요.");
+        }).toList();
+
+        final BookEntity bookEntity = new BookEntity();
+        bookEntity.setTitle(enrollBookDto.getTitle());
+        bookEntity.setAuthor(enrollBookDto.getAuthor());
+
+        categoryEntityList.forEach(categoryEntity -> {
+            BookCategoryEntity bookCategoryEntity = new BookCategoryEntity();
+            bookCategoryEntity.setCategory(categoryEntity);
+            bookEntity.addBookCategoryEntity(bookCategoryEntity);
+        });
+
+        BookEntity savedBookEntity = bookEntityRepository.save(bookEntity);
+
+        List<CategoryDto> categoryDtoList = categoryEntityList.stream()
+                .map(categoryEntity -> CategoryDto.builder().id(categoryEntity.getId()).name(categoryEntity.getName())
+                        .build()).toList();
+
+        return BookDto.builder().id(savedBookEntity.getId()).title(savedBookEntity.getTitle())
+                .author(savedBookEntity.getAuthor()).categoryList(categoryDtoList).build();
     }
 
 
