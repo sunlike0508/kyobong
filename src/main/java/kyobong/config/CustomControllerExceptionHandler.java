@@ -1,6 +1,7 @@
 package kyobong.config;
 
 
+import java.util.NoSuchElementException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -18,13 +19,13 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 @ControllerAdvice
 public class CustomControllerExceptionHandler {
 
-    //    @ExceptionHandler({NoSuchElementException.class})
-    //    public ResponseEntity<ErrorResponse> handleNoSuchElementException(NoSuchElementException e) {
-    //
-    //        ErrorResponse errorResponse = ErrorResponse.builder().message(e.getMessage()).build();
-    //
-    //        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-    //    }
+    @ExceptionHandler({NoSuchElementException.class})
+    public ResponseEntity<ErrorResponse> handleNoSuchElementException(NoSuchElementException e) {
+
+        ErrorResponse errorResponse = ErrorResponse.builder().message(e.getMessage()).build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
 
 
     @ExceptionHandler({MethodArgumentNotValidException.class})

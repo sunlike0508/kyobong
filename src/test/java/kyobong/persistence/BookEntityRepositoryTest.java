@@ -13,9 +13,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.annotation.DirtiesContext;
 
 
 @DataJpaTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class BookEntityRepositoryTest {
 
     @Autowired
@@ -67,6 +69,34 @@ class BookEntityRepositoryTest {
         Assertions.assertThat(bookEntityList.get(0).getBookCategoryList().iterator().next().getCategory().getName())
                 .isEqualTo("문학");
         Assertions.assertThat(bookEntityList.get(0).getAuthor()).isEqualTo("권태영");
+    }
+
+
+    @Test
+    void findAllByAuthorContainsIgnoreCase() {
+
+        List<BookEntity> bookEntityList = bookEntityRepository.findAllByAuthorContainsIgnoreCase("권태영");
+
+        Assertions.assertThat(bookEntityList).hasSize(4);
+    }
+
+
+    @Test
+    void findAllByTitleContainsIgnoreCase() {
+
+        List<BookEntity> bookEntityList = bookEntityRepository.findAllByTitleContainsIgnoreCase("투자");
+
+        Assertions.assertThat(bookEntityList).hasSize(2);
+    }
+
+
+    @Test
+    void findAllByAuthorContainsIgnoreCaseAndTitleContainsIgnoreCase() {
+
+        List<BookEntity> bookEntityList =
+                bookEntityRepository.findAllByAuthorContainsIgnoreCaseAndTitleContainsIgnoreCase("홍길동", "투자");
+
+        Assertions.assertThat(bookEntityList).hasSize(1);
     }
 
 

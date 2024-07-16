@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -32,18 +33,28 @@ public class KyobongBookController {
     private final ManageCategoryUseCase manageCategoryUseCase;
 
 
+    /**
+     * 책 전체 조회 or 작가 or 제목 조회
+     */
     @GetMapping("/books")
-    public ResponseEntity<List<BookDto>> getProductList() {
-        return new ResponseEntity<>(getBookUseCase.getBookList(), HttpStatus.OK);
+    public ResponseEntity<List<BookDto>> getBookList(@RequestParam(name = "author", required = false) String author,
+            @RequestParam(name = "title", required = false) String title) {
+        return new ResponseEntity<>(getBookUseCase.getBookList(author, title), HttpStatus.OK);
     }
 
 
+    /**
+     * 책 등록
+     */
     @PostMapping("/books")
     public ResponseEntity<BookDto> enrollBook(@Valid @RequestBody EnrollBookDto enrollBookDto) {
         return new ResponseEntity<>(enrollBookUseCase.enrollBook(enrollBookDto), HttpStatus.OK);
     }
 
 
+    /**
+     * 책 업데이트
+     */
     @PatchMapping("/books/{id}")
     public ResponseEntity<BookDto> updateBook(@PathVariable(name = "id") long bookID,
             @Valid @RequestBody UpdateBookDto updateBookDto) {
@@ -51,16 +62,20 @@ public class KyobongBookController {
     }
 
 
+    /**
+     * 카테고리 등록
+     */
     @PostMapping("/categories")
     public ResponseEntity<CategoryDto> enrollCategory(@Valid @RequestBody EnrollCategoryDto enrollCategoryDto) {
         return new ResponseEntity<>(manageCategoryUseCase.enrollCategory(enrollCategoryDto), HttpStatus.OK);
     }
 
 
+    /**
+     * 카테고리로 책 검색
+     */
     @GetMapping("/books/categories/{id}")
     public ResponseEntity<List<BookDto>> getBookListByCategory(@PathVariable(name = "id") long categoryID) {
         return new ResponseEntity<>(getBookUseCase.getBookListByCategory(categoryID), HttpStatus.OK);
     }
-
-    // TODO : 지은이 or 제목으로 검색
 }
