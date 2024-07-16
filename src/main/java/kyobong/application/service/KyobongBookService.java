@@ -30,6 +30,9 @@ import org.springframework.util.StringUtils;
 @RequiredArgsConstructor
 class KyobongBookService implements GetBookUseCase, EnrollBookUseCase, UpdateBookUseCase {
 
+
+    private static final String NO_ENROLL_CATEGORY = "등록되지 않은 카테고리가 있습니다. 카테고리를 먼저 등록해주세요.";
+
     private final BookEntityRepository bookEntityRepository;
     private final CategoryEntityRepository categoryEntityRepository;
     private final KyobongBookServiceMapper kyobongBookServiceMapper;
@@ -37,9 +40,24 @@ class KyobongBookService implements GetBookUseCase, EnrollBookUseCase, UpdateBoo
 
     @Override
     @Transactional(readOnly = true)
-    public List<BookDto> getBookList() {
+    public List<BookDto> getBookList(String author, String title) {
 
-        List<BookEntity> bookEntityList = bookEntityRepository.findAll();
+        List<BookEntity> bookEntityList;
+
+        if(StringUtils.hasText(author) && StringUtils.hasText(title)) {
+            bookEntityList =
+                    bookEntityRepository.findAllByAuthorContainsIgnoreCaseAndTitleContainsIgnoreCase(author, title);
+        } else if(StringUtils.hasText(author)) {
+            bookEntityList = bookEntityRepository.findAllByAuthorContainsIgnoreCase(author);
+        } else if(StringUtils.hasText(title)) {
+            bookEntityList = bookEntityRepository.findAllByTitleContainsIgnoreCase(title);
+        } else {
+            bookEntityList = bookEntityRepository.findAll();
+        }
+
+        if(CollectionUtils.isEmpty(bookEntityList)) {
+            throw new NoSuchElementException("검색 조건에 맞는 책이 없습니다");
+        }
 
         return bookEntityList.stream().map(bookEntity -> {
 
@@ -53,10 +71,11 @@ class KyobongBookService implements GetBookUseCase, EnrollBookUseCase, UpdateBoo
 
 
     @Override
+    @Transactional(readOnly = true)
     public List<BookDto> getBookListByCategory(long categoryID) {
 
         CategoryEntity categoryEntity = categoryEntityRepository.findById(categoryID)
-                .orElseThrow(() -> new IllegalArgumentException("등록되지 않은 카테고리가 있습니다. 카테고리를 먼저 등록해주세요."));
+                .orElseThrow(() -> new IllegalArgumentException(NO_ENROLL_CATEGORY));
 
         Set<BookCategoryEntity> bookCategoryEntityList = categoryEntity.getBookCategoryList();
 
@@ -81,7 +100,7 @@ class KyobongBookService implements GetBookUseCase, EnrollBookUseCase, UpdateBoo
                 categoryEntityRepository.findAllByIdIn(enrollBookDto.getCategoryList());
 
         if(categoryEntityList.size() != enrollBookDto.getCategoryList().size()) {
-            throw new IllegalArgumentException("등록되지 않은 카테고리가 있습니다. 카테고리를 먼저 등록해주세요.");
+            throw new IllegalArgumentException(NO_ENROLL_CATEGORY);
         }
 
         final BookEntity bookEntity = new BookEntity();
@@ -126,7 +145,7 @@ class KyobongBookService implements GetBookUseCase, EnrollBookUseCase, UpdateBoo
                     categoryEntityRepository.findAllByIdIn(updateBookDto.getCategoryList());
 
             if(categoryEntityList.size() != updateBookDto.getCategoryList().size()) {
-                throw new IllegalArgumentException("등록되지 않은 카테고리가 있습니다. 카테고리를 먼저 등록해주세요.");
+                throw new IllegalArgumentException(NO_ENROLL_CATEGORY);
             }
 
             bookEntity.clearCategories();

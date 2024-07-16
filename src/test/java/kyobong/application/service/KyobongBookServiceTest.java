@@ -2,6 +2,7 @@ package kyobong.application.service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 import kyobong.application.dto.BookDto;
@@ -42,6 +43,84 @@ class KyobongBookServiceTest {
 
     @InjectMocks
     private KyobongBookService kyobongBookService;
+
+
+    @Test
+    @DisplayName("작가, 제목으로 책 검색")
+    void getBookList() {
+
+        BookEntity bookEntity = new BookEntity();
+        bookEntity.setId(1L);
+        bookEntity.setTitle("제목");
+        bookEntity.setAuthor("지은이");
+
+        CategoryEntity categoryEntity = new CategoryEntity();
+        categoryEntity.setId(1L);
+        categoryEntity.setName("과학");
+
+        BookCategoryEntity bookCategoryEntity = new BookCategoryEntity();
+        bookCategoryEntity.setBook(bookEntity);
+        bookCategoryEntity.setCategory(categoryEntity);
+
+        Set<BookCategoryEntity> bookCategoryEntityList = new HashSet<>();
+        bookCategoryEntityList.add(bookCategoryEntity);
+
+        bookEntity.setBookCategoryList(bookCategoryEntityList);
+
+        given(bookEntityRepository.findAllByAuthorContainsIgnoreCaseAndTitleContainsIgnoreCase("지은이", "제목")).willReturn(
+                List.of(bookEntity));
+
+        List<BookDto> bookDtoList = kyobongBookService.getBookList("지은이", "제목");
+
+        assertThat(bookDtoList).hasSize(1);
+        assertThat(bookDtoList.get(0).getTitle()).isEqualTo("제목");
+    }
+
+
+    @Test
+    @DisplayName("책이 없는 경우 예외처ㄷ")
+    void getBookList_exception() {
+
+        given(bookEntityRepository.findAll()).willReturn(List.of());
+
+        Throwable thrown = catchThrowable(() -> kyobongBookService.getBookList("", ""));
+
+        assertThat(thrown).as("검색 조건에 맞는 책이 없습니다").isInstanceOf(NoSuchElementException.class);
+    }
+
+
+    @Test
+    @DisplayName("카테고리로 책 검색 조회")
+    void getBookListByCategory() {
+
+        BookCategoryEntity bookCategoryEntity = new BookCategoryEntity();
+
+        Set<BookCategoryEntity> bookCategoryEntityList = new HashSet<>();
+        bookCategoryEntityList.add(bookCategoryEntity);
+
+        CategoryEntity categoryEntity = new CategoryEntity();
+        categoryEntity.setId(1L);
+        categoryEntity.setBookCategoryList(bookCategoryEntityList);
+        bookCategoryEntity.setCategory(categoryEntity);
+
+
+        BookEntity bookEntity = new BookEntity();
+        bookEntity.setId(1L);
+        bookEntity.setTitle("제목");
+        bookEntity.setAuthor("지은이");
+        bookCategoryEntity.setBook(bookEntity);
+        bookEntity.setBookCategoryList(Set.of(bookCategoryEntity));
+
+        given(categoryEntityRepository.findById(1L)).willReturn(Optional.of(categoryEntity));
+
+        given(bookEntityRepository.findAllByBookCategoryListIsIn(bookCategoryEntityList)).willReturn(
+                List.of(bookEntity));
+
+        List<BookDto> bookDtoList = kyobongBookService.getBookListByCategory(1L);
+
+        assertThat(bookDtoList).hasSize(1);
+        assertThat(bookDtoList.get(0).getTitle()).isEqualTo("제목");
+    }
 
 
     @Test
