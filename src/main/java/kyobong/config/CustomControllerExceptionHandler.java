@@ -1,6 +1,7 @@
 package kyobong.config;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 
+@Slf4j
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class CustomControllerExceptionHandler {
@@ -37,6 +39,8 @@ public class CustomControllerExceptionHandler {
 
     @ExceptionHandler({IllegalArgumentException.class})
     public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException e) {
+
+        e.printStackTrace();
 
         ErrorResponse errorResponse = ErrorResponse.builder().message(e.getMessage()).build();
 

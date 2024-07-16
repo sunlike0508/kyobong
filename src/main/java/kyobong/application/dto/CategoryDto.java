@@ -1,4 +1,4 @@
-package kyobong.service.dto;
+package kyobong.application.dto;
 
 
 import lombok.Builder;
