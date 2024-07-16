@@ -22,9 +22,6 @@ class BookEntityRepositoryTest {
     private CategoryEntityRepository categoryEntityRepository;
 
     @Autowired
-    private BookCategoryEntityRepository bookCategoryEntityRepository;
-
-    @Autowired
     private BookEntityRepository bookEntityRepository;
 
 
@@ -52,11 +49,7 @@ class BookEntityRepositoryTest {
             CategoryEntity categoryEntity =
                     categoryEntityRepository.findCategoryEntityByName(bookVO.getCategory()).orElseThrow();
 
-            BookCategoryEntity bookCategoryEntity = new BookCategoryEntity();
-            bookCategoryEntity.setBook(bookEntity);
-            bookCategoryEntity.setCategory(categoryEntity);
-
-            bookEntity.addBookCategoryEntity(bookCategoryEntity);
+            bookEntity.addBookCategoryEntity(categoryEntity);
 
             bookEntityRepository.save(bookEntity);
         });
@@ -71,7 +64,7 @@ class BookEntityRepositoryTest {
         Assertions.assertThat(bookEntityList).hasSize(15);
         Assertions.assertThat(bookEntityList.get(0).getTitle()).isEqualTo("너에게 해주지 못한 말들");
         Assertions.assertThat(bookEntityList.get(0).getBookCategoryList()).hasSize(1);
-        Assertions.assertThat(bookEntityList.get(0).getBookCategoryList().get(0).getCategory().getName())
+        Assertions.assertThat(bookEntityList.get(0).getBookCategoryList().iterator().next().getCategory().getName())
                 .isEqualTo("문학");
         Assertions.assertThat(bookEntityList.get(0).getAuthor()).isEqualTo("권태영");
     }

@@ -1,7 +1,7 @@
-package kyobong.service;
+package kyobong.application;
 
+import kyobong.application.dto.BookDto;
 import kyobong.controller.dto.EnrollBookDto;
-import kyobong.service.dto.BookDto;
 
 public interface EnrollBookUseCase {
 

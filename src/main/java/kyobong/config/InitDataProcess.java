@@ -4,11 +4,8 @@ package kyobong.config;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kyobong.persistence.BookCategoryEntity;
 import kyobong.persistence.BookEntity;
 import kyobong.persistence.BookEntityRepository;
 import kyobong.persistence.CategoryEntity;
@@ -25,23 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class InitDataProcess implements CommandLineRunner {
 
-    /**
-     * 보통은 redis를 사용하지만 임의 과제이기 때문에 전역변수 사용
-     */
-    protected static final Map<Long, String> categoryMap = new HashMap<>();
-
     private final CategoryEntityRepository categoryEntityRepository;
     private final BookEntityRepository bookEntityRepository;
-
-
-    public static Map<Long, String> getCategoryMap() {
-        return Map.copyOf(categoryMap);
-    }
-
-
-    public static void putCategoryMap(long id, String name) {
-        categoryMap.put(id, name);
-    }
 
 
     @Override
@@ -54,9 +36,7 @@ public class InitDataProcess implements CommandLineRunner {
         List<CategoryEntity> categoryEntityList =
                 Arrays.asList(objectMapper.readValue(jsonFile, CategoryEntity[].class));
 
-        categoryEntityList = categoryEntityRepository.saveAll(categoryEntityList);
-
-        categoryEntityList.forEach(categoryEntity -> categoryMap.put(categoryEntity.getId(), categoryEntity.getName()));
+        categoryEntityRepository.saveAll(categoryEntityList);
 
         jsonFile = new ClassPathResource("books.json").getFile();
 
@@ -70,11 +50,7 @@ public class InitDataProcess implements CommandLineRunner {
             CategoryEntity categoryEntity =
                     categoryEntityRepository.findCategoryEntityByName(bookVO.getCategory()).orElseThrow();
 
-            BookCategoryEntity bookCategoryEntity = new BookCategoryEntity();
-            bookCategoryEntity.setBook(bookEntity);
-            bookCategoryEntity.setCategory(categoryEntity);
-
-            bookEntity.addBookCategoryEntity(bookCategoryEntity);
+            bookEntity.addBookCategoryEntity(categoryEntity);
 
             bookEntityRepository.save(bookEntity);
         });

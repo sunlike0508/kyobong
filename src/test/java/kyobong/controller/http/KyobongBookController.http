@@ -13,3 +13,17 @@ Content-Type: application/json
     1
   ]
 }
+
+
+### 책 수정
+PATCH http://localhost:8080/books/15
+Content-Type: application/json
+
+{
+  "title": "첵 제목 테스트",
+  "author": "신선호",
+  "categoryList": [
+    4,
+    5
+  ]
+}
