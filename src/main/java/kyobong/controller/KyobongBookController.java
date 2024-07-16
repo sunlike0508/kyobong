@@ -5,9 +5,12 @@ import java.util.List;
 import jakarta.validation.Valid;
 import kyobong.application.EnrollBookUseCase;
 import kyobong.application.GetBookUseCase;
+import kyobong.application.ManageCategoryUseCase;
 import kyobong.application.UpdateBookUseCase;
 import kyobong.application.dto.BookDto;
+import kyobong.application.dto.CategoryDto;
 import kyobong.controller.dto.EnrollBookDto;
+import kyobong.controller.dto.EnrollCategoryDto;
 import kyobong.controller.dto.UpdateBookDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +29,7 @@ public class KyobongBookController {
     private final GetBookUseCase getBookUseCase;
     private final EnrollBookUseCase enrollBookUseCase;
     private final UpdateBookUseCase updateBookUseCase;
+    private final ManageCategoryUseCase manageCategoryUseCase;
 
 
     @GetMapping("/books")
@@ -45,4 +49,13 @@ public class KyobongBookController {
             @Valid @RequestBody UpdateBookDto updateBookDto) {
         return new ResponseEntity<>(updateBookUseCase.updateBook(bookID, updateBookDto), HttpStatus.OK);
     }
+
+
+    @PostMapping("/categories")
+    public ResponseEntity<CategoryDto> enrollCategory(@Valid @RequestBody EnrollCategoryDto enrollCategoryDto) {
+        return new ResponseEntity<>(manageCategoryUseCase.enrollCategory(enrollCategoryDto), HttpStatus.OK);
+    }
+    // 카테고리 별 검색
+
+    // 지은이 or 제목으로 검색
 }
