@@ -30,8 +30,7 @@ public class CustomControllerExceptionHandler {
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 
-        ErrorResponse errorResponse =
-                ErrorResponse.builder().message("필수 데이터 " + e.getFieldError().getField() + " 누락").build();
+        ErrorResponse errorResponse = ErrorResponse.builder().message(e.getMessage()).build();
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
@@ -39,8 +38,6 @@ public class CustomControllerExceptionHandler {
 
     @ExceptionHandler({IllegalArgumentException.class})
     public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException e) {
-
-        e.printStackTrace();
 
         ErrorResponse errorResponse = ErrorResponse.builder().message(e.getMessage()).build();
 

@@ -7,7 +7,7 @@ POST http://localhost:8080/books
 Content-Type: application/json
 
 {
-  "title": "첵 제목 테스트",
+  "title": "첵 제목 테스트2",
   "author": "신선호",
   "categoryList": [
     1
@@ -27,3 +27,17 @@ Content-Type: application/json
     5
   ]
 }
+
+
+### 카테고리 등록
+POST http://localhost:8080/categories
+Content-Type: application/json
+
+{
+  "name": "소설"
+}
+
+
+### 책 카테로리로 조회
+GET http://localhost:8080/books/categories/1
+Content-Type: application/json
