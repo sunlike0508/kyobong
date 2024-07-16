@@ -55,7 +55,12 @@ public class KyobongBookController {
     public ResponseEntity<CategoryDto> enrollCategory(@Valid @RequestBody EnrollCategoryDto enrollCategoryDto) {
         return new ResponseEntity<>(manageCategoryUseCase.enrollCategory(enrollCategoryDto), HttpStatus.OK);
     }
-    // 카테고리 별 검색
 
-    // 지은이 or 제목으로 검색
+
+    @GetMapping("/books/categories/{id}")
+    public ResponseEntity<List<BookDto>> getBookListByCategory(@PathVariable(name = "id") long categoryID) {
+        return new ResponseEntity<>(getBookUseCase.getBookListByCategory(categoryID), HttpStatus.OK);
+    }
+
+    // TODO : 지은이 or 제목으로 검색
 }

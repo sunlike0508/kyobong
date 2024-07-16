@@ -52,19 +52,4 @@ public class BookEntity {
 
         bookCategoryList.clear();
     }
-
-
-    //    public void removeCategory(CategoryEntity categoryEntity) {
-    //        BookCategoryEntity bookCategoryEntity = new BookCategoryEntity(this, categoryEntity);
-    //
-    //        categoryEntity.getBookCategoryList().remove(bookCategoryEntity);
-    //
-    //        bookCategoryList.remove(bookCategoryEntity);
-    //    }
-    //
-    //
-    //    public boolean hasCategoryEntity(CategoryEntity categoryEntity) {
-    //        BookCategoryEntity bookCategoryEntity = new BookCategoryEntity(this, categoryEntity);
-    //        return bookCategoryList.contains(bookCategoryEntity);
-    //    }
 }

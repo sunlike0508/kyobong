@@ -3,16 +3,24 @@ package kyobong.controller.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
 
-@Value
+
+@Getter
 public class EnrollCategoryDto {
 
-    @NotBlank String name;
+    @NotBlank
+    private String name;
+
+
+    public EnrollCategoryDto() {
+
+    }
 
 
     @Builder
-    private EnrollCategoryDto(String name) {
+    public EnrollCategoryDto(String name) {
         this.name = name;
     }
+
 }

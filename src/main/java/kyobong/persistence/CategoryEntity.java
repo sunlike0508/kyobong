@@ -1,8 +1,8 @@
 package kyobong.persistence;
 
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -30,5 +30,5 @@ public class CategoryEntity {
     private String name;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
-    private List<BookCategoryEntity> bookCategoryList = new ArrayList<>();
+    private Set<BookCategoryEntity> bookCategoryList = new HashSet<>();
 }
