@@ -12,7 +12,7 @@ public class UpdateBookDto {
     String author;
     List<Long> categoryList;
     Boolean isRentable;
-    // TODO : 대여 불가능 사유 추가
+    // todo : 대여 불가능 사유 추가
 
 
     @Builder
