@@ -26,7 +26,7 @@ Content-Type: application/json
     4,
     5
   ],
-  "isRentable": true
+  "isRentable": false
 }
 
 

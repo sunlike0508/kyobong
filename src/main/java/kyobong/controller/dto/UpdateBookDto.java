@@ -2,11 +2,13 @@ package kyobong.controller.dto;
 
 
 import java.util.List;
+import kyobong.controller.validator.RentalStatusValid;
 import kyobong.persistence.RentalStatus;
 import lombok.Builder;
 import lombok.Value;
 
 @Value
+@RentalStatusValid(message = "대여 불가능일 때는 불가능 사유를 입력해주세요")
 public class UpdateBookDto {
 
     String title;
@@ -23,13 +25,6 @@ public class UpdateBookDto {
         this.author = author;
         this.categoryList = categoryList == null ? List.of() : List.copyOf(categoryList);
         this.isRentable = isRentable;
-        this.rentalStatus = isRentable == null ? null : getRentalStatus();
-    }
-
-
-    private RentalStatus getRentalStatus() {
-        return Boolean.TRUE.equals(isRentable) ?
-                RentalStatus.SYSTEM_ERROR :
-                RentalStatus.AVAILABLE.equals(rentalStatus) ? RentalStatus.SYSTEM_ERROR : rentalStatus;
+        this.rentalStatus = rentalStatus;
     }
 }
