@@ -23,7 +23,13 @@ public class UpdateBookDto {
         this.author = author;
         this.categoryList = categoryList == null ? List.of() : List.copyOf(categoryList);
         this.isRentable = isRentable;
-        this.rentalStatus =
-                isRentable ? RentalStatus.AVAILABLE : (rentalStatus == null ? RentalStatus.SYSTEM_ERROR : rentalStatus);
+        this.rentalStatus = isRentable == null ? null : getRentalStatus();
+    }
+
+
+    private RentalStatus getRentalStatus() {
+        return Boolean.TRUE.equals(isRentable) ?
+                RentalStatus.SYSTEM_ERROR :
+                RentalStatus.AVAILABLE.equals(rentalStatus) ? RentalStatus.SYSTEM_ERROR : rentalStatus;
     }
 }
