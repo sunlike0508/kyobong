@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryService implements ManageCategoryUseCase {
+class CategoryService implements ManageCategoryUseCase {
 
     private final CategoryEntityRepository categoryEntityRepository;
     private final CategoryServiceMapper categoryServiceMapper;

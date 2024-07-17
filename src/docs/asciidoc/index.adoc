@@ -1,0 +1,15 @@
+= 교봉 문고 도서 관리 장부 API
+:doctype: book
+:toc: left
+:sectnums:
+:toclevels: 3
+:source-highlighter: highlightjs
+
+
+== 카테고리 관리 API
+
+//* xref:AdminProduct.adoc
+
+== 책 관리 API
+
+* xref:book.adoc[책 관리 API]

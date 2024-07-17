@@ -67,7 +67,10 @@ public class KyobongBookController {
      */
     @PostMapping("/categories")
     public ResponseEntity<CategoryDto> enrollCategory(@Valid @RequestBody EnrollCategoryDto enrollCategoryDto) {
-        return new ResponseEntity<>(manageCategoryUseCase.enrollCategory(enrollCategoryDto), HttpStatus.OK);
+
+        CategoryDto categoryDto = manageCategoryUseCase.enrollCategory(enrollCategoryDto);
+
+        return new ResponseEntity<>(categoryDto, HttpStatus.OK);
     }
 
 

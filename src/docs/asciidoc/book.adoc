@@ -1,0 +1,113 @@
+:doctype: book
+:toc: left
+:sectnums:
+:toclevels: 3
+:source-highlighter: rouge
+
+= 책 관리 API
+
+== 책 조회(전체 조회, 작가, 제목으로 조회)
+
+=== Request
+
+include::{snippets}/get-book-list/http-request.adoc[]
+
+=== RequestParam
+
+include::{snippets}/get-book-list/query-parameters.adoc[]
+
+=== Response
+
+include::{snippets}/get-book-list/http-response.adoc[]
+
+=== ResponseBody
+
+include::{snippets}/get-book-list/response-fields.adoc[]
+
+==== 카테고리 [[category-list]]
+
+include::{snippets}/get-book-list/response-fields-category-list.adoc[]
+
+== 책 등록
+
+=== Request
+
+include::{snippets}/enroll-book/http-request.adoc[]
+
+=== RequestBody
+
+include::{snippets}/enroll-book/request-fields.adoc[]
+
+=== Response
+
+include::{snippets}/enroll-book/http-response.adoc[]
+
+=== ResponseBody
+
+include::{snippets}/enroll-book/response-fields.adoc[]
+
+==== 카테고리 [[enroll-category-list]]
+
+include::{snippets}/enroll-book/response-fields-category-list.adoc[]
+
+== 책 수정
+
+=== Request
+
+include::{snippets}/update-book/http-request.adoc[]
+
+=== Path Parameter
+
+include::{snippets}/update-book/path-parameters.adoc[]
+
+=== RequestBody
+
+include::{snippets}/update-book/request-fields.adoc[]
+
+=== Response
+
+include::{snippets}/update-book/http-response.adoc[]
+
+=== ResponseBody
+
+include::{snippets}/update-book/response-fields.adoc[]
+
+==== 카테고리 [[update-category-list]]
+
+include::{snippets}/update-book/response-fields-category-list.adoc[]
+
+== 카테고리 등록
+
+=== Request
+
+include::{snippets}/enroll-category/http-request.adoc[]
+
+=== RequestBody
+
+include::{snippets}/enroll-category/request-fields.adoc[]
+
+=== Response
+
+include::{snippets}/enroll-category/http-response.adoc[]
+
+=== ResponseBody
+
+include::{snippets}/enroll-category/response-fields.adoc[]
+
+== 카테고리 검색어로 책 조회
+
+=== Request
+
+include::{snippets}/get-book-list-by-category/http-request.adoc[]
+
+=== Path Parameter
+
+include::{snippets}/get-book-list-by-category/path-parameters.adoc[]
+
+=== Response
+
+include::{snippets}/get-book-list-by-category/http-response.adoc[]
+
+=== ResponseBody
+
+include::{snippets}/get-book-list-by-category/response-fields.adoc[]
