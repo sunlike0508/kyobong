@@ -23,6 +23,7 @@ public class UpdateBookDto {
         this.author = author;
         this.categoryList = categoryList == null ? List.of() : List.copyOf(categoryList);
         this.isRentable = isRentable;
-        this.rentalStatus = rentalStatus;
+        this.rentalStatus =
+                isRentable ? RentalStatus.AVAILABLE : (rentalStatus == null ? RentalStatus.SYSTEM_ERROR : rentalStatus);
     }
 }

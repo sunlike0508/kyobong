@@ -25,7 +25,8 @@ Content-Type: application/json
   "categoryList": [
     4,
     5
-  ]
+  ],
+  "isRentable": true
 }
 
 
