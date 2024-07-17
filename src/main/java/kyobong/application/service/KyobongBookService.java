@@ -15,6 +15,7 @@ import kyobong.persistence.BookEntity;
 import kyobong.persistence.BookEntityRepository;
 import kyobong.persistence.CategoryEntity;
 import kyobong.persistence.CategoryEntityRepository;
+import kyobong.persistence.RentalStatus;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -137,6 +138,12 @@ class KyobongBookService implements GetBookUseCase, EnrollBookUseCase, UpdateBoo
 
         if(!ObjectUtils.isEmpty(updateBookDto.getIsRentable())) {
             bookEntity.setRentable(updateBookDto.getIsRentable());
+
+            if(Boolean.TRUE.equals(updateBookDto.getIsRentable())) {
+                bookEntity.setRentalStatus(RentalStatus.AVAILABLE);
+            } else {
+                bookEntity.setRentalStatus(updateBookDto.getRentalStatus());
+            }
         }
 
         if(!CollectionUtils.isEmpty(updateBookDto.getCategoryList())) {

@@ -6,6 +6,8 @@ import java.util.Set;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,6 +35,10 @@ public class BookEntity {
     private String title;
 
     private String author;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private RentalStatus rentalStatus = RentalStatus.AVAILABLE;
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<BookCategoryEntity> bookCategoryList = new HashSet<>();

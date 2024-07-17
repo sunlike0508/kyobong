@@ -1,0 +1,11 @@
+:doctype: book
+:toc: left
+:sectnums:
+:toclevels: 3
+:source-highlighter: rouge
+
+= 공통 Enum
+
+== RentalStatus [[rental-status]]
+
+include::{snippets}/enum-doc-controller-test/get-rental-status-enum/custom-response-fields-rental-status.adoc[]

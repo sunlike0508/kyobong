@@ -19,6 +19,7 @@ public class KyobongBookControllerDocument {
                 responseFields(fieldWithPath("[].id").description("책 ID"), fieldWithPath("[].title").description("제목"),
                         fieldWithPath("[].author").description("지은이"),
                         fieldWithPath("[].rentable").description("대여 가능 여부"),
+                        fieldWithPath("[].rentalStatus").description("대여 가능 여부 사유"),
                         subsectionWithPath("[].categoryList").description("<<category-list, 카테고리>> 리스트")),
                 responseFields(beneathPath("[].categoryList").withSubsectionId("category-list"),
                         fieldWithPath("[].id").description("카테고리 ID"),
@@ -32,6 +33,7 @@ public class KyobongBookControllerDocument {
                         fieldWithPath("categoryList").description("카테고리 리스트")),
                 responseFields(fieldWithPath("id").description("책 ID"), fieldWithPath("title").description("제목"),
                         fieldWithPath("author").description("지은이"), fieldWithPath("rentable").description("대여 가능 여부"),
+                        fieldWithPath("rentalStatus").description("대여 가능 여부 사유"),
                         subsectionWithPath("categoryList").description("<<enroll-category-list, 카테고리>> 리스트")),
                 responseFields(beneathPath("categoryList").withSubsectionId("category-list"),
                         fieldWithPath("id").description("카테고리 ID"), fieldWithPath("name").description("카테고리 이름")));
@@ -43,9 +45,11 @@ public class KyobongBookControllerDocument {
                 requestFields(fieldWithPath("title").description("제목").optional(),
                         fieldWithPath("author").description("지은이").optional(),
                         fieldWithPath("categoryList").description("카테고리 리스트").optional(),
-                        fieldWithPath("isRentable").description("대여 가능 여부").optional()),
+                        fieldWithPath("isRentable").description("대여 가능 여부").optional(),
+                        fieldWithPath("rentalStatus").description("대여 가능 여부 사유").optional()),
                 responseFields(fieldWithPath("id").description("책 ID"), fieldWithPath("title").description("제목"),
                         fieldWithPath("author").description("지은이"), fieldWithPath("rentable").description("대여 가능 여부"),
+                        fieldWithPath("rentalStatus").description("대여 가능 여부 사유"),
                         subsectionWithPath("categoryList").description("<<update-category-list, 카테고리>> 리스트")),
                 responseFields(beneathPath("categoryList").withSubsectionId("category-list"),
                         fieldWithPath("id").description("카테고리 ID"), fieldWithPath("name").description("카테고리 이름")));
@@ -64,6 +68,7 @@ public class KyobongBookControllerDocument {
                 responseFields(fieldWithPath("[].id").description("책 ID"), fieldWithPath("[].title").description("제목"),
                         fieldWithPath("[].author").description("지은이"),
                         fieldWithPath("[].rentable").description("대여 가능 여부"),
+                        fieldWithPath("[].rentalStatus").description("대여 가능 여부 사유"),
                         subsectionWithPath("[].categoryList").description(
                                 "<<get-book-by-category-category-list, 카테고리>> 리스트")),
                 responseFields(beneathPath("[].categoryList").withSubsectionId("category-list"),
