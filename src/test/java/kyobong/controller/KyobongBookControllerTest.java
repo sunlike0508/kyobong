@@ -13,6 +13,7 @@ import kyobong.controller.document.KyobongBookControllerDocument;
 import kyobong.controller.dto.EnrollBookDto;
 import kyobong.controller.dto.EnrollCategoryDto;
 import kyobong.controller.dto.UpdateBookDto;
+import kyobong.persistence.RentalStatus;
 import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -53,7 +54,7 @@ class KyobongBookControllerTest {
         CategoryDto categoryDto = CategoryDto.builder().id(1L).name("카테고리").build();
 
         List<BookDto> bookDtoList = List.of(BookDto.builder().id(1L).author("지은이").title("제목").isRentable(true)
-                .categoryList(List.of(categoryDto)).build());
+                .rentalStatus(RentalStatus.AVAILABLE).categoryList(List.of(categoryDto)).build());
 
         given(getBookUseCase.getBookList("author", "title")).willReturn(bookDtoList);
 
@@ -70,7 +71,7 @@ class KyobongBookControllerTest {
 
         BookDto bookDto =
                 BookDto.builder().id(1L).author("지은이").title("제목").isRentable(true).categoryList(List.of(categoryDto))
-                        .build();
+                        .rentalStatus(RentalStatus.AVAILABLE).build();
 
         EnrollBookDto enrollBookDto =
                 EnrollBookDto.builder().author("지은이").title("제목").categoryList(List.of(1L)).build();
@@ -90,10 +91,11 @@ class KyobongBookControllerTest {
 
         BookDto bookDto =
                 BookDto.builder().id(1L).author("지은이").title("제목").isRentable(true).categoryList(List.of(categoryDto))
-                        .build();
+                        .rentalStatus(RentalStatus.AVAILABLE).build();
 
         UpdateBookDto updateBookDto =
-                UpdateBookDto.builder().author("지은이").title("제목").categoryList(List.of(1L)).isRentable(true).build();
+                UpdateBookDto.builder().author("지은이").title("제목").categoryList(List.of(1L)).isRentable(false)
+                        .rentalStatus(RentalStatus.DAMAGED).build();
 
         given(updateBookUseCase.updateBook(1L, updateBookDto)).willReturn(bookDto);
 
@@ -123,7 +125,7 @@ class KyobongBookControllerTest {
         CategoryDto categoryDto = CategoryDto.builder().id(1L).name("카테고리").build();
 
         List<BookDto> bookDtoList = List.of(BookDto.builder().id(1L).author("지은이").title("제목").isRentable(true)
-                .categoryList(List.of(categoryDto)).build());
+                .rentalStatus(RentalStatus.AVAILABLE).categoryList(List.of(categoryDto)).build());
 
         given(getBookUseCase.getBookListByCategory(1L)).willReturn(bookDtoList);
 
